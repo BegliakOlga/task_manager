@@ -11,7 +11,7 @@ create table priorities (
     name text not null
 );
 
-create table statutes (
+create table statuses (
     id integer generated always as identity primary key,
     code text not null unique,
     name text not null
