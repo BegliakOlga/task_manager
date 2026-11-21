@@ -2,13 +2,30 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, instal-scale=1.0">
-    <title>Todo site</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-enuiv="X-UA-Compatible" content="ie-edge">
+    <title>TaskManager</title>
 </head>
 
 <body>
-    <h3>Hello, World!</h3>
-    <p>This is the visible content of the page.</p>
+    <h1>Список задач:</h1>
+    <div>
+        <table>
+            <thead><tr><th>Название</th><th>Категория</th><th>Приоритеты</th><th>Статус</th></tr></thead>
+            <tbody>
+                {% for task in tasks %}
+                    <tr>
+                        <td><a href="{{ url_for('detail', task_id=task.id) }}">{{ task.title }}</a></td>
+                        <td>{{ task.category_name }}</td>
+                        <td>{{ task.priority_name }}</td>
+                        <td>{{ task.status_name }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
 </body>
 
 </html>
