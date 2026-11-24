@@ -17,5 +17,9 @@ def detail(task_id:int):
     task = get_task(task_id)
     return render_template('detail.html', task=task)
 
+@app.route('/tasks/new', methods=["GET", "POST"])
+def create():
+
+
 if __name__ == '__main__':
     app.run(debug=True)
