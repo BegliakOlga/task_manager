@@ -1,6 +1,4 @@
-from os import abort
-
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, abort
 
 from models.tasks import list_tasks, get_task, create_task, update_task, delete_task
 from models.categories import list_categories
@@ -32,6 +30,9 @@ def read_form() -> dict:
         "status_id": request.form.get("status_id", ""),
     }
 
+@app.route('/')
+def welcome_page():
+    return render_template('welcome_page.html')
 
 @app.route('/tasks')  # http://localhost:5000/tasks
 def index():
@@ -42,7 +43,8 @@ def index():
 @app.route('/tasks/<int:task_id>')  # http://localhost:5000/tasks/3
 def detail(task_id:int):
     task = get_task(task_id)
-    print(task)
+    if not task:
+        abort(404)
     return render_template('deteil.html', task=task)
 
 @app.route('/tasks/new', methods=["GET", "POST"])
@@ -102,6 +104,15 @@ def delete(task_id):
 
     delete_task(task_id)
     return redirect(url_for('index'))
+
+
+@app.errorhandler(404)
+def not_found(error):
+    return render_template('errors/404.html'), 404
+
+@app.errorhandler(500)
+def server_error(error):
+    return render_template('errors/500.html'), 500
 
 
 if __name__ == '__main__':
