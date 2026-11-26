@@ -2,7 +2,7 @@ from os import abort
 
 from flask import Flask, render_template, request, redirect, url_for
 
-from models.tasks import list_tasks, get_task, create_task, update_task
+from models.tasks import list_tasks, get_task, create_task, update_task, delete_task
 from models.categories import list_categories
 from models.priorities import list_priorities
 from models.statuses import list_statuses
@@ -92,6 +92,16 @@ def edit(task_id: int):
 
     return render_template('form.html', task=task, error=error,
                            categories=category_list, priorities=priority_list, statuses=status_list)
+
+
+@app.route('/tasks/<int:task_id>/delete', methods=["POST"])
+def delete(task_id):
+    task = get_task(task_id)
+    if not task:
+        abort(404)
+
+    delete_task(task_id)
+    return redirect(url_for('index'))
 
 
 if __name__ == '__main__':
